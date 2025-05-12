@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kamin\\Documents\\webdev_workspace\\dotnet\\amor_mio_api\\amor_mio_api.csproj": {}
+    "C:\\Users\\DavidLeon\\Workspace\\amor-mio-api\\amor_mio_api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kamin\\Documents\\webdev_workspace\\dotnet\\amor_mio_api\\amor_mio_api.csproj": {
+    "C:\\Users\\DavidLeon\\Workspace\\amor-mio-api\\amor_mio_api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kamin\\Documents\\webdev_workspace\\dotnet\\amor_mio_api\\amor_mio_api.csproj",
+        "projectUniqueName": "C:\\Users\\DavidLeon\\Workspace\\amor-mio-api\\amor_mio_api.csproj",
         "projectName": "amor_mio_api",
-        "projectPath": "C:\\Users\\kamin\\Documents\\webdev_workspace\\dotnet\\amor_mio_api\\amor_mio_api.csproj",
-        "packagesPath": "C:\\Users\\kamin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kamin\\Documents\\webdev_workspace\\dotnet\\amor_mio_api\\obj\\",
+        "projectPath": "C:\\Users\\DavidLeon\\Workspace\\amor-mio-api\\amor_mio_api.csproj",
+        "packagesPath": "C:\\Users\\DavidLeon\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\DavidLeon\\Workspace\\amor-mio-api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\kamin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\DavidLeon\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -63,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.408/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
