@@ -1,3 +1,6 @@
+using System.Text.Json;
+using Framework.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
@@ -33,6 +36,38 @@ app.MapGet("/data-test-cases", async () =>
     var filePath = "../mockData-TestCases.json";
     var jsonContent = await File.ReadAllTextAsync(filePath);
     return Results.Content(jsonContent, "application/json");
+});
+
+app.MapPost("/post-data-empty", async (MenuObject data) =>
+{
+    try
+    {
+        var filePath = "../mockData-Empty.json";
+        var jsonContent = JsonSerializer.Serialize(data);
+        await File.WriteAllTextAsync(filePath, jsonContent);
+        return Results.Ok();
+    }
+    catch (Exception ex)
+    {
+
+        return Results.Problem($"Unexpected behaviour {ex.Message}");
+    }
+});
+
+app.MapPost("/post-data-menu", async (MenuObject data) =>
+{
+    try
+    {
+        var filePath = "../mockData-Menu.json";
+        var jsonContent = JsonSerializer.Serialize(data);
+        await File.WriteAllTextAsync(filePath, jsonContent);
+        return Results.Ok();
+    }
+    catch (Exception ex)
+    {
+
+        return Results.Problem($"Unexpected behaviour {ex.Message}");
+    }
 });
 
 app.Run();
