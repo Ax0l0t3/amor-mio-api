@@ -70,4 +70,18 @@ app.MapPost("/post-data-menu", async (MenuObject data) =>
     }
 });
 
+app.MapPost("/printJson", (object data) =>
+{
+    try
+    {
+        var jsonContent = JsonSerializer.Serialize(data);
+        Console.WriteLine(jsonContent);
+        return Results.Ok();
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Unexpected behaviour {ex.Message}");
+    }
+});
+
 app.Run();
