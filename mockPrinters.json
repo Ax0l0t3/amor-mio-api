@@ -1,1 +1,16 @@
-{"Printers":[{"Name":"Barra Frutas","Ip":"192.168.1.100","Port":"9100","Id":""},{"Name":"Barra Cafes","Ip":"3.68.10.10","Port":"5200","Id":""},{"Name":"Another","Ip":"2.2.22.2","Port":"990","Id":""}]}
+{
+    "Printers": [
+        {
+            "Name": "Barra Frutas",
+            "Ip": "192.168.1.100",
+            "Port": "9100",
+            "Id": "BarraFrutas-192.168.1.100-9100"
+        },
+        {
+            "Name": "Barra Cafes",
+            "Ip": "3.68.10.10",
+            "Port": "5200",
+            "Id": "BarraCafes-3.68.10.10-5200"
+        }
+    ]
+}
