@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Framework.Models;
+using static Framework.Services.PrintService;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
@@ -38,6 +39,13 @@ app.MapGet("/data-test-cases", async () =>
     return Results.Content(jsonContent, "application/json");
 });
 
+app.MapGet("/get-printers", async () =>
+{
+    var filePath = "../mockPrinters.json";
+    var jsonContent = await File.ReadAllTextAsync(filePath);
+    return Results.Content(jsonContent, "application/json");
+});
+
 app.MapPost("/post-data-empty", async (MenuObject data) =>
 {
     try
@@ -49,7 +57,6 @@ app.MapPost("/post-data-empty", async (MenuObject data) =>
     }
     catch (Exception ex)
     {
-
         return Results.Problem($"Unexpected behaviour {ex.Message}");
     }
 });
@@ -65,17 +72,32 @@ app.MapPost("/post-data-menu", async (MenuObject data) =>
     }
     catch (Exception ex)
     {
-
         return Results.Problem($"Unexpected behaviour {ex.Message}");
     }
 });
 
-app.MapPost("/printJson", (object data) =>
+app.MapPost("/save-printers", async (PrintersClass data) =>
 {
     try
     {
+        var filePath = "../mockPrinters.json";
         var jsonContent = JsonSerializer.Serialize(data);
-        Console.WriteLine(jsonContent);
+        await File.WriteAllTextAsync(filePath, jsonContent);
+        return Results.Ok();
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem($"Unexpected behaviour {ex.Message}");
+    }
+});
+
+app.MapPost("/printJson", async (HttpContext httpData) =>
+{
+    try
+    {
+        using var reader = new StreamReader(httpData.Request.Body);
+        var data = await reader.ReadToEndAsync();
+        PrintOverTcp_Ip("192.168.1.100", 9100, data);
         return Results.Ok();
     }
     catch (Exception ex)
