@@ -2,6 +2,7 @@ using System.Text.Json;
 using Framework.Models;
 using Framework.Observers;
 using Framework.Publishers;
+using static Framework.Constants.StringConstants;
 
 namespace Framework.Endpoints
 {
@@ -13,9 +14,8 @@ namespace Framework.Endpoints
             {
                 try
                 {
-                    var filePath = "../mockData-Empty.json";
                     var jsonContent = JsonSerializer.Serialize(data);
-                    await File.WriteAllTextAsync(filePath, jsonContent);
+                    await File.WriteAllTextAsync(EmptyDataFilePath, jsonContent);
                     return Results.Ok();
                 }
                 catch (Exception ex)
@@ -28,9 +28,8 @@ namespace Framework.Endpoints
             {
                 try
                 {
-                    var filePath = "../mockData-Menu.json";
                     var jsonContent = JsonSerializer.Serialize(data);
-                    await File.WriteAllTextAsync(filePath, jsonContent);
+                    await File.WriteAllTextAsync(DataFilePath, jsonContent);
                     return Results.Ok();
                 }
                 catch (Exception ex)
@@ -43,9 +42,8 @@ namespace Framework.Endpoints
             {
                 try
                 {
-                    var filePath = "../mockPrinters.json";
                     var jsonContent = JsonSerializer.Serialize(data);
-                    await File.WriteAllTextAsync(filePath, jsonContent);
+                    await File.WriteAllTextAsync(PrintersFilePath, jsonContent);
                     return Results.Ok();
                 }
                 catch (Exception ex)
@@ -58,10 +56,9 @@ namespace Framework.Endpoints
             {
                 try
                 {
-                    var filePath = "../mockPrinters.json";
                     using var reader = new StreamReader(httpData.Request.Body);
                     var message = await reader.ReadToEndAsync();
-                    var printersJson = await File.ReadAllTextAsync(filePath);
+                    var printersJson = await File.ReadAllTextAsync(PrintersFilePath);
                     PrintersClass thisPrinters = JsonSerializer.Deserialize<PrintersClass>(printersJson);
                     List<PrinterObserver> observers = new List<PrinterObserver>();
                     foreach (var thisPrinter in thisPrinters.Printers)

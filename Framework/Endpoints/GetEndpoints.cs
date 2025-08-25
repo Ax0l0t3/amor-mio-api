@@ -1,3 +1,4 @@
+using static Framework.Constants.StringConstants;
 namespace Framework.Endpoints
 {
     public static class GetEndpoints
@@ -8,29 +9,25 @@ namespace Framework.Endpoints
 
             routes.MapGet("/data-menu", async () =>
             {
-                var filePath = "../mockData-Menu.json";
-                var jsonContent = await File.ReadAllTextAsync(filePath);
+                var jsonContent = await File.ReadAllTextAsync(DataFilePath);
                 return Results.Content(jsonContent, applicationType);
             });
 
             routes.MapGet("/data-empty", async () =>
             {
-                var filePath = "../mockData-Empty.json";
-                var jsonContent = await File.ReadAllTextAsync(filePath);
+                var jsonContent = await File.ReadAllTextAsync(EmptyDataFilePath);
                 return Results.Content(jsonContent, applicationType);
             });
 
             routes.MapGet("/data-test-cases", async () =>
             {
-                var filePath = "../mockData-TestCases.json";
-                var jsonContent = await File.ReadAllTextAsync(filePath);
+                var jsonContent = await File.ReadAllTextAsync(TestDataFilePath);
                 return Results.Content(jsonContent, applicationType);
             });
 
             routes.MapGet("/get-printers", async () =>
             {
-                var filePath = "../mockPrinters.json";
-                var jsonContent = await File.ReadAllTextAsync(filePath);
+                var jsonContent = await File.ReadAllTextAsync(PrintersFilePath);
                 return Results.Content(jsonContent, applicationType);
             });
         }
