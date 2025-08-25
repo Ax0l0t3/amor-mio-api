@@ -59,12 +59,12 @@ namespace Framework.Services
                 if (regexMatches.Count > 0)
                 {
                     foreach (var match in regexMatches)
-                        {
-                            string matchString = match.ToString() ?? string.Empty;
-                            string matchValue = Regex.Match(matchString, @"\d(?=rem)").Value;
-                            string indexToAdd = string.IsNullOrEmpty(matchValue) ? "0" : matchValue;
-                            listIndexes.Add(indexToAdd);
-                        }
+                    {
+                        string matchString = match.ToString() ?? string.Empty;
+                        string matchValue = Regex.Match(matchString, @"\d(?=rem)").Value;
+                        string indexToAdd = string.IsNullOrEmpty(matchValue) ? "0" : matchValue;
+                        listIndexes.Add(indexToAdd);
+                    }
                     for (int i = 0; i < ticketLines.Count(); i++)
                     {
                         string removedHtml = Regex.Replace(ticketLines[i], @"<.*?>", string.Empty);

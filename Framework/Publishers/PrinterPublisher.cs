@@ -6,10 +6,12 @@ namespace Framework.Publishers
     {
         public List<string> PrintMessages { get; set; } = [];
         private List<IObserver> observers = new List<IObserver>();
+
         public void Attach(IObserver currentObserver)
         {
             observers.Add(currentObserver);
         }
+
         public void Detach(IObserver currentObserver)
         {
             observers.Remove(currentObserver);
@@ -27,6 +29,7 @@ namespace Framework.Publishers
                 thisOberver.Update(this);
             }
         }
+
         public void SetPrinterService(string message)
         {
             var messegaByPrinters = message.Split('\n');
