@@ -1,5 +1,8 @@
-using System.Text.Json;
-using Framework.Models;
+using Framework.Publishers;
+using static Framework.Endpoints.GetEndpoints;
+using static Framework.Endpoints.PostEndpoints;
+
+PrinterPublisher printerPublisher = new PrinterPublisher();
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
@@ -17,57 +20,7 @@ var app = builder.Build();
 
 app.UseCors("DevelopmentCors");
 
-app.MapGet("/data-menu", async () =>
-{
-    var filePath = "../mockData-Menu.json";
-    var jsonContent = await File.ReadAllTextAsync(filePath);
-    return Results.Content(jsonContent, "application/json");
-});
-
-app.MapGet("/data-empty", async () =>
-{
-    var filePath = "../mockData-Empty.json";
-    var jsonContent = await File.ReadAllTextAsync(filePath);
-    return Results.Content(jsonContent, "application/json");
-});
-
-app.MapGet("/data-test-cases", async () =>
-{
-    var filePath = "../mockData-TestCases.json";
-    var jsonContent = await File.ReadAllTextAsync(filePath);
-    return Results.Content(jsonContent, "application/json");
-});
-
-app.MapPost("/post-data-empty", async (MenuObject data) =>
-{
-    try
-    {
-        var filePath = "../mockData-Empty.json";
-        var jsonContent = JsonSerializer.Serialize(data);
-        await File.WriteAllTextAsync(filePath, jsonContent);
-        return Results.Ok();
-    }
-    catch (Exception ex)
-    {
-
-        return Results.Problem($"Unexpected behaviour {ex.Message}");
-    }
-});
-
-app.MapPost("/post-data-menu", async (MenuObject data) =>
-{
-    try
-    {
-        var filePath = "../mockData-Menu.json";
-        var jsonContent = JsonSerializer.Serialize(data);
-        await File.WriteAllTextAsync(filePath, jsonContent);
-        return Results.Ok();
-    }
-    catch (Exception ex)
-    {
-
-        return Results.Problem($"Unexpected behaviour {ex.Message}");
-    }
-});
+app.MapGetEndpoints();
+app.MapPostEndpoints(printerPublisher);
 
 app.Run();
