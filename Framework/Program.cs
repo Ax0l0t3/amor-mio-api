@@ -15,11 +15,13 @@ builder.Services.AddCors(options =>
         .AllowAnyHeader();
     });
 });
-
+builder.WebHost.UseUrls("http://0.0.0.0:5000");
 var app = builder.Build();
 
 app.UseCors("DevelopmentCors");
-
+app.UseStaticFiles();
+app.UseDefaultFiles();
+app.MapFallbackToFile("index.html");
 app.MapGetEndpoints();
 app.MapPostEndpoints(printerPublisher);
 

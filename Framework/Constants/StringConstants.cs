@@ -2,10 +2,10 @@ namespace Framework.Constants
 {
     public static class StringConstants
     {
-        public static string DataFilePath => "../mockData-Menu.json";
-        public static string EmptyDataFilePath => "../mockData-Empty.json";
+        public static string DataFilePath => "Data\\mockData-Menu.json";
+        public static string EmptyDataFilePath => "Data\\mockData-Empty.json";
         public static string HttpApplicationType => "application/json";
-        public static string PrintersFilePath => "../mockPrinters.json";
-        public static string TestDataFilePath => "../mockData-TestCases.json";
+        public static string PrintersFilePath => "Data\\mockPrinters.json";
+        public static string TestDataFilePath => "Data\\mockData-TestCases.json";
     }
 }
