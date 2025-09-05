@@ -3,6 +3,7 @@ using static Framework.Endpoints.GetEndpoints;
 using static Framework.Endpoints.PostEndpoints;
 
 PrinterPublisher printerPublisher = new PrinterPublisher();
+TabPublisher tabPublisher = new TabPublisher();
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
@@ -23,6 +24,6 @@ app.UseStaticFiles();
 app.UseDefaultFiles();
 app.MapFallbackToFile("index.html");
 app.MapGetEndpoints();
-app.MapPostEndpoints(printerPublisher);
+app.MapPostEndpoints(printerPublisher, tabPublisher);
 
 app.Run();
