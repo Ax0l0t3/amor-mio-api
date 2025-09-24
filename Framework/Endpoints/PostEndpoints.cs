@@ -89,7 +89,6 @@ namespace Framework.Endpoints
                     var message = await reader.ReadToEndAsync();
                     var printersJson = await File.ReadAllTextAsync(PrintersFilePath);
                     PrintersClass thisPrinters = JsonSerializer.Deserialize<PrintersClass>(printersJson) ?? new PrintersClass();
-                    List<PrinterObserver> observers = new List<PrinterObserver>();
                     foreach (var thisPrinter in thisPrinters.Printers)
                     {
                         printerPublisher.Attach(new PrinterObserver(thisPrinter));
