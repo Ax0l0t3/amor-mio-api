@@ -6,6 +6,11 @@ namespace Framework.Endpoints
         public static void MapGetEndpoints(this IEndpointRouteBuilder routes)
         {
 
+            routes.MapGet("/get-colours", async () =>
+            {
+                var jsonContent = await File.ReadAllTextAsync(ColoursFilePath);
+                return Results.Content(jsonContent, HttpApplicationType);
+            });
             routes.MapGet("/data-menu", async () =>
             {
                 var jsonContent = await File.ReadAllTextAsync(DataFilePath);
