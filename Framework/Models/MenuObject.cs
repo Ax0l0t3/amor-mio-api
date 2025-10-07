@@ -25,6 +25,7 @@ namespace Framework.Models
     {
         public string Comments { get; set; } = string.Empty;
         public List<string> Extras { get; set; } = [];
+        public bool Favourite { get; set; }
         public List<string> Ingredients { get; set; } = [];
         public string Name { get; set; } = string.Empty;
     }

@@ -15,7 +15,7 @@ namespace Framework.Services
                 {
                     0x1B, 0x40,
                     0x1B, 0x44, 0x02, 0x04, 0x06, 0x08, 0x04, 0x00,
-                    0x1D, 0x21, 0x00
+                    0x1D, 0x21, 0x10
                 };
                 byte[] cutCommand = new byte[]
                 {
@@ -36,7 +36,7 @@ namespace Framework.Services
                         using (NetworkStream stream = client.GetStream())
                         {
                             stream.Write(fullPrintMsg, 0, fullPrintMsg.Length);
-                            Console.WriteLine("Print job sent successfully.");
+                            Console.WriteLine("Comanda impresa exitosamente");
                         }
                     }
                 }

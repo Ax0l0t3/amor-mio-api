@@ -8,7 +8,7 @@ namespace Framework.Endpoints
 {
     public static class PostEndpoints
     {
-        public static void MapPostEndpoints(this IEndpointRouteBuilder routes, PrinterPublisher printerPublisher)
+        public static void MapPostEndpoints(this IEndpointRouteBuilder routes, PrinterPublisher printerPublisher, TabPublisher tabPublisher)
         {
             routes.MapPost("/post-data-empty", async (MenuObject data) =>
             {
@@ -43,7 +43,36 @@ namespace Framework.Endpoints
                 try
                 {
                     var jsonContent = JsonSerializer.Serialize(data);
+                    var printersJson = await File.ReadAllTextAsync(PrintersFilePath);
+                    PrintersClass previousPrintersState = JsonSerializer.Deserialize<PrintersClass>(printersJson) ?? new PrintersClass();
+                    var menuJson = await File.ReadAllTextAsync(DataFilePath);
+                    MenuObject currentTabs = JsonSerializer.Deserialize<MenuObject>(menuJson) ?? new MenuObject();
+                    foreach (OptionTab thisTab in currentTabs.Tabs)
+                    {
+                        tabPublisher.Attach(new OptionTabObserver(thisTab));
+                    }
+                    foreach (Printer uiPrinter in data.Printers)
+                    {
+                        Printer? foundPrinter = previousPrintersState.Printers.Find(p => p.Id == uiPrinter.Id);
+                        if (foundPrinter == null)
+                        {
+                            continue;
+                        }
+
+                        if (foundPrinter.Name != uiPrinter.Name)
+                        {
+                            tabPublisher.SetPrintersNames(foundPrinter.Name, uiPrinter.Name);
+                            tabPublisher.Notify();
+                        }
+                    }
+                    tabPublisher.DetachAll();
+                    tabPublisher.ResetStates();
+
+                    var jsonMenu = JsonSerializer.Serialize(currentTabs);
+
                     await File.WriteAllTextAsync(PrintersFilePath, jsonContent);
+                    await File.WriteAllTextAsync(DataFilePath, jsonMenu);
+
                     return Results.Ok();
                 }
                 catch (Exception ex)
@@ -59,8 +88,7 @@ namespace Framework.Endpoints
                     using var reader = new StreamReader(httpData.Request.Body);
                     var message = await reader.ReadToEndAsync();
                     var printersJson = await File.ReadAllTextAsync(PrintersFilePath);
-                    PrintersClass thisPrinters = JsonSerializer.Deserialize<PrintersClass>(printersJson);
-                    List<PrinterObserver> observers = new List<PrinterObserver>();
+                    PrintersClass thisPrinters = JsonSerializer.Deserialize<PrintersClass>(printersJson) ?? new PrintersClass();
                     foreach (var thisPrinter in thisPrinters.Printers)
                     {
                         printerPublisher.Attach(new PrinterObserver(thisPrinter));
