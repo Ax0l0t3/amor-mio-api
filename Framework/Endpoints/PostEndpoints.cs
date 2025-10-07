@@ -10,6 +10,20 @@ namespace Framework.Endpoints
     {
         public static void MapPostEndpoints(this IEndpointRouteBuilder routes, PrinterPublisher printerPublisher, TabPublisher tabPublisher)
         {
+            routes.MapPost("/post-colours", async (List<string> data) =>
+            {
+                try
+                {
+                    var jsonContent = JsonSerializer.Serialize(data);
+                    await File.WriteAllTextAsync(ColoursFilePath, jsonContent);
+                    return Results.Ok();
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem($"Unexpected behaviour {ex.Message}");
+                }
+            });
+
             routes.MapPost("/post-data-empty", async (MenuObject data) =>
             {
                 try
