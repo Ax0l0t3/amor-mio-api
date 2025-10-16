@@ -2,6 +2,7 @@ using System.Text.Json;
 using Framework.Models;
 using Framework.Observers;
 using Framework.Publishers;
+using Microsoft.AspNetCore.Mvc;
 using static Framework.Constants.StringConstants;
 
 namespace Framework.Endpoints
@@ -10,6 +11,33 @@ namespace Framework.Endpoints
     {
         public static void MapPostEndpoints(this IEndpointRouteBuilder routes, PrinterPublisher printerPublisher, TabPublisher tabPublisher)
         {
+            routes.MapPost("/post-bg-image", async ([FromForm] IFormFile file) =>
+            {
+                try
+                {
+                    if (file == null || file.Length == 0)
+                    {
+                        return Results.BadRequest("No file uploaded.");
+                    }
+                    string directoryPath = Path.Combine(Directory.GetCurrentDirectory(), BgImageFilePath);
+                    string[] thisStringList = Directory.GetFiles(BgImageFilePath);
+                    foreach (var thisString in thisStringList)
+                    {
+                        File.Delete(thisString);
+                    }
+                    var filePath = Path.Combine(directoryPath, file.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                    return Results.Ok();
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem($"Unexpected error: {ex.Message}");
+                }
+            }).DisableAntiforgery();
+
             routes.MapPost("/post-colours", async (List<string> data) =>
             {
                 try
