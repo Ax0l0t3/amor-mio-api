@@ -17,14 +17,9 @@ builder.Services.AddCors(options =>
     });
 });
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
-// builder.Services.AddAntiforgery(options =>
-// {
-//     options.HeaderName = "X-CSRF-TOKEN";
-// });
 var app = builder.Build();
 
 app.UseCors("DevelopmentCors");
-// app.UseAntiforgery();
 // app.UseStaticFiles();
 // app.UseDefaultFiles();
 // app.MapFallbackToFile("index.html");
