@@ -43,7 +43,10 @@ namespace Framework.Services
             }
             catch (Exception ex)
             {
+                Console.WriteLine("Unexpected printing behaviour\nInitializing error description:");
+                Console.WriteLine(ex.InnerException);
                 Console.WriteLine(ex.Message);
+                Console.WriteLine("Finalizing error description.");
             }
         }
 
