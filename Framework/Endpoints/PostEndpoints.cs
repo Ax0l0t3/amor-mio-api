@@ -127,16 +127,21 @@ namespace Framework.Endpoints
             {
                 try
                 {
+                    Console.WriteLine("/printJson Endpoint started");
                     using var reader = new StreamReader(httpData.Request.Body);
                     var message = await reader.ReadToEndAsync();
                     var printersJson = await File.ReadAllTextAsync(PrintersFilePath);
                     PrintersClass thisPrinters = JsonSerializer.Deserialize<PrintersClass>(printersJson) ?? new PrintersClass();
+                    Console.WriteLine("Attaching printer observers");
                     foreach (var thisPrinter in thisPrinters.Printers)
                     {
                         printerPublisher.Attach(new PrinterObserver(thisPrinter));
                     }
+                    Console.WriteLine("Setting new publisher message");
                     printerPublisher.SetPrinterService(message);
+                    Console.WriteLine("Notifying printer observers");
                     printerPublisher.Notify();
+                    Console.WriteLine("Detaching printers");
                     printerPublisher.DetachAll();
                     return Results.Ok();
                 }
