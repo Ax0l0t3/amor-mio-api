@@ -39,6 +39,7 @@ namespace Framework.Services
                             stream.Write(fullPrintMsg, 0, fullPrintMsg.Length);
                             Console.WriteLine("Comanda impresa exitosamente");
                         }
+                        Console.WriteLine("Closing connection...");
                     }
                 }
             }
