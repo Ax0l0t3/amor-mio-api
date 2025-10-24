@@ -32,6 +32,7 @@ namespace Framework.Services
                     Array.Copy(cutCommand, 0, fullPrintMsg, initializePrinter.Length + msg.Length, cutCommand.Length);
                     using (TcpClient client = new TcpClient())
                     {
+                        Console.WriteLine("Connecting to printer...");
                         client.Connect(printerIp, printerPort);
                         using (NetworkStream stream = client.GetStream())
                         {
@@ -86,6 +87,7 @@ namespace Framework.Services
                         ticketLines[i] = Regex.Replace(startLineTabs, @"\n", $"\n{string.Join(string.Empty, tabsToAdd)}");
                     }
                     string fullTicketString = string.Join('\n', ticketLines);
+                    Console.WriteLine(fullTicketString);
                     listOfMessages.Add(fullTicketString);
                 }
             }
