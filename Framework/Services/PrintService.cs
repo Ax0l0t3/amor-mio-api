@@ -37,6 +37,7 @@ namespace Framework.Services
                         using (NetworkStream stream = client.GetStream())
                         {
                             stream.Write(fullPrintMsg, 0, fullPrintMsg.Length);
+                            Thread.Sleep(1000);
                             Console.WriteLine("Comanda impresa exitosamente");
                         }
                         Console.WriteLine("Closing connection...");
