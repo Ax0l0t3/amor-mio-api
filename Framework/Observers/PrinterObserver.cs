@@ -15,13 +15,21 @@ namespace Framework.Observers
 
         public void Update(ISubject subject)
         {
-            var printerMessages = (subject as PrinterPublisher).PrintMessages;
-            foreach (string msg in printerMessages)
+            var printerPublisher = subject as PrinterPublisher;
+            if (printerPublisher is not null)
             {
-                if (msg.Contains(_printer.Name))
+                var printerMessages = printerPublisher.PrintMessages;
+                foreach (string msg in printerMessages)
                 {
-                    PrintOverTcp_Ip(_printer.Ip, int.Parse(_printer.Port), msg);
+                    if (msg.Contains(_printer.Name))
+                    {
+                        PrintOverTcp_Ip(_printer.Ip, int.Parse(_printer.Port), msg);
+                    }
                 }
+            }
+            else
+            {
+                Console.WriteLine("While updating oberver PrinterPublisher brought null");
             }
         }
     }
