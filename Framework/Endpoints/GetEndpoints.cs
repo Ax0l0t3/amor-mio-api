@@ -48,6 +48,12 @@ namespace Framework.Endpoints
                 var jsonContent = await File.ReadAllTextAsync(PrintersFilePath);
                 return Results.Content(jsonContent, HttpApplicationType);
             });
+
+            routes.MapGet("/get-printed-tickets", async () =>
+            {
+                var jsonContent = await File.ReadAllTextAsync(PrintedTicketsFilePath);
+                return Results.Content(jsonContent, HttpApplicationType);
+            });
         }
     }
 }
