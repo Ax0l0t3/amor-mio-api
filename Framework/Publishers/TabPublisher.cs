@@ -23,7 +23,7 @@ namespace Framework.Publishers
             observers.Clear();
         }
 
-        public void Notify()
+        public async Task Notify()
         {
             foreach (var thisOberver in observers)
             {
