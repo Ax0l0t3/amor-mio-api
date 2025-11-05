@@ -7,26 +7,26 @@ namespace Framework.Publishers
         public List<string> PrintMessages { get; set; } = [];
         private List<IObserver> observers = new List<IObserver>();
 
-        public void Attach(IObserver currentObserver)
+        public void Attach(IObserver observer)
         {
-            observers.Add(currentObserver);
+            observers.Add(observer);
         }
 
-        public void Detach(IObserver currentObserver)
+        public void Detach(IObserver observer)
         {
-            observers.Remove(currentObserver);
+            observers.Remove(observer);
         }
 
-        public void DetachAll()
+        public async Task DetachAll()
         {
             observers.Clear();
         }
 
-        public void Notify()
+        public async Task Notify()
         {
             foreach (var thisOberver in observers)
             {
-                thisOberver.Update(this);
+                await thisOberver.Update(this);
             }
         }
 

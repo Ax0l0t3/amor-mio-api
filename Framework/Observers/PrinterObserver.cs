@@ -13,7 +13,7 @@ namespace Framework.Observers
             _printer = printer;
         }
 
-        public void Update(ISubject subject)
+        public async Task Update(ISubject subject)
         {
             var printerPublisher = subject as PrinterPublisher;
             if (printerPublisher is not null)
@@ -23,7 +23,7 @@ namespace Framework.Observers
                 {
                     if (msg.Contains(_printer.Name))
                     {
-                        PrintOverTcp_Ip(_printer.Ip, int.Parse(_printer.Port), msg);
+                        await PrintOverTcp_Ip(_printer.Ip, int.Parse(_printer.Port), msg);
                     }
                 }
             }
