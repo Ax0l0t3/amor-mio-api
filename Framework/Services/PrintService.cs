@@ -7,7 +7,7 @@ namespace Framework.Services
 {
     public class PrintService
     {
-        public static void PrintOverTcp_Ip(string printerIp = "192.168.1.100", int printerPort = 9100, string message = "Default")
+        public static async Task PrintOverTcp_Ip(string printerIp = "192.168.1.100", int printerPort = 9100, string message = "Default")
         {
             try
             {
@@ -20,7 +20,9 @@ namespace Framework.Services
                 byte[] cutCommand = new byte[]
                 {
                     0x1B, 0x64, 0x09,
-                    0x1D, 0x56, 0x00
+                    0x1D, 0x56, 0x00,
+                    0x0C,
+                    0x1B, 0x40
                 };
                 List<string> parsedMessage = ParseHtmlBody(message);
                 foreach (string currentMessage in parsedMessage)
@@ -33,11 +35,13 @@ namespace Framework.Services
                     using (TcpClient client = new TcpClient())
                     {
                         Console.WriteLine("Connecting to printer...");
-                        client.Connect(printerIp, printerPort);
+                        await client.ConnectAsync(printerIp, printerPort);
+                        client.LingerState = new LingerOption(true, 0);
                         using (NetworkStream stream = client.GetStream())
                         {
-                            stream.Write(fullPrintMsg, 0, fullPrintMsg.Length);
-                            Thread.Sleep(1000);
+                            await stream.WriteAsync(fullPrintMsg, 0, fullPrintMsg.Length);
+                            await stream.FlushAsync();
+                            await Task.Delay(1500);
                             Console.WriteLine("Comanda impresa exitosamente");
                         }
                         Console.WriteLine("Closing connection...");

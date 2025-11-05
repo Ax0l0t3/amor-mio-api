@@ -12,7 +12,7 @@ namespace Framework.Observers
             _tab = tab;
         }
 
-        public void Update(ISubject subject)
+        public async Task Update(ISubject subject)
         {
             var previousState = (subject as TabPublisher).PreviousPrinterName;
             var currentState = (subject as TabPublisher).NewPrinterName;

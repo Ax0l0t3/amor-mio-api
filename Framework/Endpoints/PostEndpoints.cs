@@ -132,17 +132,22 @@ namespace Framework.Endpoints
                     var message = await reader.ReadToEndAsync();
                     var printersJson = await File.ReadAllTextAsync(PrintersFilePath);
                     PrintersClass thisPrinters = JsonSerializer.Deserialize<PrintersClass>(printersJson) ?? new PrintersClass();
-                    Console.WriteLine("Attaching printer observers");
+                    Console.Write("Attaching printer observers...");
                     foreach (var thisPrinter in thisPrinters.Printers)
                     {
                         printerPublisher.Attach(new PrinterObserver(thisPrinter));
                     }
-                    Console.WriteLine("Setting new publisher message");
+                    Console.WriteLine("\tPrinter observers attached");
+                    Console.Write("Setting new publisher message...");
                     printerPublisher.SetPrinterService(message);
-                    Console.WriteLine("Notifying printer observers");
-                    printerPublisher.Notify();
-                    Console.WriteLine("Detaching printers");
-                    printerPublisher.DetachAll();
+                    Console.WriteLine("\tPublisher message done");
+                    Console.Write("Notifying printer observers...");
+                    await printerPublisher.Notify();
+                    Console.WriteLine("\tObservers notified");
+                    Console.Write("Detaching printers...");
+                    await printerPublisher.DetachAll();
+                    Console.WriteLine("\tPrinters detached");
+                    Console.WriteLine("Returning Ok");
                     return Results.Ok();
                 }
                 catch (Exception ex)
