@@ -1,5 +1,68 @@
 [
     {
+        "NowDate": "2025-11-05T05:07:22.161Z",
+        "PrintedObjects": [
+            {
+                "Comments": "",
+                "Extras": [],
+                "Favourite": false,
+                "Ingredients": [
+                    "Fresa",
+                    "Platano",
+                    "Lechera",
+                    "Nutella",
+                    "Nuez",
+                    "Oreo"
+                ],
+                "Name": "Waffle Oreo",
+                "Printer": "Barra Waffles",
+                "Tab": "Waffles",
+                "ExtrasToGo": [],
+                "IngsToGo": [],
+                "Order": "Solah",
+                "id": "Waffle Oreo-Fresa-Platano-Lechera-Nutella-Nuez-Oreo-0"
+            },
+            {
+                "Comments": "",
+                "Extras": [],
+                "Favourite": false,
+                "Ingredients": [
+                    "Fresa",
+                    "Platano",
+                    "Cajeta",
+                    "Lechera",
+                    "Helado",
+                    "Nuez"
+                ],
+                "Name": "Waffle Amor Mio",
+                "Printer": "Barra Waffles",
+                "Tab": "Waffles",
+                "ExtrasToGo": [],
+                "IngsToGo": [],
+                "Order": "Solah",
+                "id": "Waffle Amor Mio-Fresa-Platano-Cajeta-Lechera-Helado-Nuez-0"
+            },
+            {
+                "Comments": "",
+                "Extras": [],
+                "Favourite": false,
+                "Ingredients": [
+                    "Fresa",
+                    "Lechera",
+                    "Crema Batida",
+                    "Nuez"
+                ],
+                "Name": "Waffle Fresas Con Crema",
+                "Printer": "Barra Waffles",
+                "Tab": "Waffles",
+                "ExtrasToGo": [],
+                "IngsToGo": [],
+                "Order": "Solah",
+                "id": "Waffle Fresas Con Crema-Fresa-Lechera-CremaBatida-Nuez-0"
+            }
+        ]
+    },
+    {
         "NowDate": "2025-11-06T05:08:22.161Z",
         "PrintedObjects": [
             {
@@ -174,6 +237,134 @@
                 "IngsToGo": [],
                 "Order": "Miriam",
                 "id": "Fruta chica-ConTodo-Coco-GranolaUva-2"
+            }
+        ]
+    },
+    {
+        "NowDate": "2025-11-08T19:28:45.810Z",
+        "PrintedObjects": [
+            {
+                "Comments": "",
+                "Extras": [],
+                "Favourite": false,
+                "Ingredients": [
+                    "Fresa"
+                ],
+                "Name": "Cheesecake Frambuesa",
+                "Printer": "Barra General",
+                "Tab": "Costco",
+                "ExtrasToGo": [],
+                "IngsToGo": [],
+                "id": "Cheesecake Frambuesa-Fresa-0"
+            },
+            {
+                "Comments": "",
+                "Extras": [],
+                "Favourite": false,
+                "Ingredients": [
+                    "Fresa"
+                ],
+                "Name": "Cheesecake Frambuesa",
+                "Printer": "Barra General",
+                "Tab": "Costco",
+                "ExtrasToGo": [],
+                "IngsToGo": [],
+                "id": "Cheesecake Frambuesa-Fresa-1"
+            }
+        ]
+    },
+    {
+        "NowDate": "2025-11-08T19:26:05.054Z",
+        "PrintedObjects": [
+            {
+                "Comments": "",
+                "Extras": [],
+                "Favourite": false,
+                "Ingredients": [
+                    "Entera"
+                ],
+                "Name": "Frappe Capuccino",
+                "Printer": "Barra Waffles",
+                "Tab": "Bebidas",
+                "ExtrasToGo": [],
+                "IngsToGo": [],
+                "Order": "Mi",
+                "id": "Frappe Capuccino-Entera-0"
+            }
+        ]
+    },
+    {
+        "NowDate": "2025-11-08T19:30:27.937Z",
+        "PrintedObjects": [
+            {
+                "Comments": "Lleva un comentario",
+                "Extras": [
+                    "Uva"
+                ],
+                "Favourite": false,
+                "Ingredients": [
+                    "Con Todo",
+                    "Almendra",
+                    "Granola"
+                ],
+                "Name": "Fruta chica",
+                "Printer": "Barra General",
+                "Tab": "Fruta Miel/Granola",
+                "ExtrasToGo": [],
+                "IngsToGo": [],
+                "Order": "ParaAlguien",
+                "id": "Fruta chica-ConTodo-Almendra-GranolaUvaLlevauncomentario-0"
+            }
+        ]
+    },
+    {
+        "NowDate": "2025-11-08T19:31:27.817Z",
+        "PrintedObjects": [
+            {
+                "Comments": "",
+                "Extras": [
+                    "(Fresa)"
+                ],
+                "Favourite": false,
+                "Ingredients": [
+                    "Con Todo",
+                    "(Coco)",
+                    "(Miel)"
+                ],
+                "Name": "Fruta Grande",
+                "Printer": "Barra General",
+                "Tab": "Fruta Miel/Granola",
+                "ExtrasToGo": [
+                    "Fruta"
+                ],
+                "IngsToGo": [
+                    "Complementos"
+                ],
+                "Order": "Orden-1",
+                "id": "Fruta Grande-ConTodo-(Coco)-(Miel)(Fresa)-0"
+            },
+            {
+                "Comments": "",
+                "Extras": [
+                    "(Fresa)"
+                ],
+                "Favourite": false,
+                "Ingredients": [
+                    "Con Todo",
+                    "(Coco)",
+                    "(Miel)"
+                ],
+                "Name": "Fruta Grande",
+                "Printer": "Barra General",
+                "Tab": "Fruta Miel/Granola",
+                "ExtrasToGo": [
+                    "Fruta"
+                ],
+                "IngsToGo": [
+                    "Complementos"
+                ],
+                "Order": "Orden-1",
+                "id": "Fruta Grande-ConTodo-(Coco)-(Miel)(Fresa)-1"
             }
         ]
     }
