@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 using Framework.Interfaces;
 using Framework.Models;
 using Framework.Publishers;
@@ -8,6 +9,7 @@ namespace Framework.Observers
     public class PrinterObserver : IObserver
     {
         private readonly Printer _printer;
+        private TcpClient _client;
         public PrinterObserver(Printer printer)
         {
             _printer = printer;
@@ -23,7 +25,7 @@ namespace Framework.Observers
                 {
                     if (msg.Contains(_printer.Name))
                     {
-                        await PrintOverTcp_Ip(_printer.Ip, int.Parse(_printer.Port), msg);
+                        await PrintOverTcp_Ip(_client, _printer.Ip, int.Parse(_printer.Port), msg);
                     }
                 }
             }
@@ -31,6 +33,12 @@ namespace Framework.Observers
             {
                 Console.WriteLine("While updating oberver PrinterPublisher brought null");
             }
+        }
+
+        public async void SetNewClient()
+        {
+            _client = new TcpClient();
+            await _client.ConnectAsync(printerIp, printerPort);
         }
     }
 }

@@ -4,6 +4,6 @@ namespace Framework.Interfaces
     {
         void Attach(IObserver observer);
         void Detach(IObserver observer);
-        Task Notify();
+        void Notify();
     }
 }

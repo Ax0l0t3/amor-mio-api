@@ -1,4 +1,5 @@
 using Framework.Interfaces;
+using Framework.Observers;
 
 namespace Framework.Publishers
 {
@@ -17,16 +18,16 @@ namespace Framework.Publishers
             observers.Remove(observer);
         }
 
-        public async Task DetachAll()
+        public void DetachAll()
         {
             observers.Clear();
         }
 
-        public async Task Notify()
+        public void Notify()
         {
             foreach (var thisOberver in observers)
             {
-                await thisOberver.Update(this);
+                thisOberver.Update(this);
             }
         }
 
@@ -34,6 +35,14 @@ namespace Framework.Publishers
         {
             var messegaByPrinters = message.Split('\n');
             PrintMessages = messegaByPrinters.ToList();
+        }
+
+        public void SetNewConnections()
+        {
+            foreach (var thisOberver in observers)
+            {
+                (thisOberver as PrinterObserver).SetNewClient();
+            }
         }
     }
 }

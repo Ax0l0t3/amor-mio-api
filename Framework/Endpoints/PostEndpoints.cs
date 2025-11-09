@@ -130,6 +130,25 @@ namespace Framework.Endpoints
                     Console.WriteLine("/printJson Endpoint started");
                     using var reader = new StreamReader(httpData.Request.Body);
                     var message = await reader.ReadToEndAsync();
+                    Console.Write("Setting new publisher message...");
+                    printerPublisher.SetPrinterService(message);
+                    Console.WriteLine("\tPublisher message done");
+                    Console.Write("Notifying printer observers...");
+                    printerPublisher.Notify();
+                    Console.WriteLine("\tObservers notified");
+                    Console.WriteLine("Returning Ok");
+                    return Results.Ok();
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem($"Unexpected behaviour {ex.Message}");
+                }
+            });
+
+            routes.MapPost("/open-connection", async () =>
+            {
+                try
+                {
                     var printersJson = await File.ReadAllTextAsync(PrintersFilePath);
                     PrintersClass thisPrinters = JsonSerializer.Deserialize<PrintersClass>(printersJson) ?? new PrintersClass();
                     Console.Write("Attaching printer observers...");
@@ -138,16 +157,7 @@ namespace Framework.Endpoints
                         printerPublisher.Attach(new PrinterObserver(thisPrinter));
                     }
                     Console.WriteLine("\tPrinter observers attached");
-                    Console.Write("Setting new publisher message...");
-                    printerPublisher.SetPrinterService(message);
-                    Console.WriteLine("\tPublisher message done");
-                    Console.Write("Notifying printer observers...");
-                    await printerPublisher.Notify();
-                    Console.WriteLine("\tObservers notified");
-                    Console.Write("Detaching printers...");
-                    await printerPublisher.DetachAll();
-                    Console.WriteLine("\tPrinters detached");
-                    Console.WriteLine("Returning Ok");
+                    printerPublisher.SetNewConnections();
                     return Results.Ok();
                 }
                 catch (Exception ex)

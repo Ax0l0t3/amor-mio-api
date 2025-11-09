@@ -7,7 +7,7 @@ namespace Framework.Services
 {
     public class PrintService
     {
-        public static async Task PrintOverTcp_Ip(string printerIp = "192.168.1.100", int printerPort = 9100, string message = "Default")
+        public static async Task PrintOverTcp_Ip(TcpClient client, string printerIp = "192.168.1.100", int printerPort = 9100, string message = "Default")
         {
             try
             {
@@ -25,6 +25,7 @@ namespace Framework.Services
                     0x1B, 0x40
                 };
                 List<string> parsedMessage = ParseHtmlBody(message);
+                await client.ConnectAsync(printerIp, printerPort);
                 foreach (string currentMessage in parsedMessage)
                 {
                     byte[] msg = Encoding.ASCII.GetBytes(currentMessage);
@@ -32,20 +33,14 @@ namespace Framework.Services
                     Array.Copy(initializePrinter, 0, fullPrintMsg, 0, initializePrinter.Length);
                     Array.Copy(msg, 0, fullPrintMsg, initializePrinter.Length, msg.Length);
                     Array.Copy(cutCommand, 0, fullPrintMsg, initializePrinter.Length + msg.Length, cutCommand.Length);
-                    using (TcpClient client = new TcpClient())
+                    using (NetworkStream stream = client.GetStream())
                     {
-                        Console.WriteLine("Connecting to printer...");
-                        await client.ConnectAsync(printerIp, printerPort);
-                        client.LingerState = new LingerOption(true, 0);
-                        using (NetworkStream stream = client.GetStream())
-                        {
-                            await stream.WriteAsync(fullPrintMsg, 0, fullPrintMsg.Length);
-                            await stream.FlushAsync();
-                            await Task.Delay(1500);
-                            Console.WriteLine("Comanda impresa exitosamente");
-                        }
-                        Console.WriteLine("Closing connection...");
+                        await stream.WriteAsync(fullPrintMsg, 0, fullPrintMsg.Length);
+                        await stream.FlushAsync();
+                        await Task.Delay(1500);
+                        Console.WriteLine("Comanda impresa exitosamente");
                     }
+                    Console.WriteLine("Closing connection...");
                 }
             }
             catch (Exception ex)
