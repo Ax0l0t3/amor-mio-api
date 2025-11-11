@@ -142,10 +142,10 @@ namespace Framework.Endpoints
                     printerPublisher.SetPrinterService(message);
                     Console.WriteLine("\tPublisher message done");
                     Console.Write("Notifying printer observers...");
-                    await printerPublisher.Notify();
+                    printerPublisher.Notify();
                     Console.WriteLine("\tObservers notified");
                     Console.Write("Detaching printers...");
-                    await printerPublisher.DetachAll();
+                    printerPublisher.DetachAll();
                     Console.WriteLine("\tPrinters detached");
                     Console.WriteLine("Returning Ok");
                     return Results.Ok();

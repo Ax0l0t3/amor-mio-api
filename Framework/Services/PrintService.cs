@@ -25,18 +25,18 @@ namespace Framework.Services
                     0x1B, 0x40
                 };
                 List<string> parsedMessage = ParseHtmlBody(message);
-                foreach (string currentMessage in parsedMessage)
+                using (TcpClient client = new TcpClient())
                 {
-                    byte[] msg = Encoding.ASCII.GetBytes(currentMessage);
-                    byte[] fullPrintMsg = new byte[initializePrinter.Length + msg.Length + cutCommand.Length];
-                    Array.Copy(initializePrinter, 0, fullPrintMsg, 0, initializePrinter.Length);
-                    Array.Copy(msg, 0, fullPrintMsg, initializePrinter.Length, msg.Length);
-                    Array.Copy(cutCommand, 0, fullPrintMsg, initializePrinter.Length + msg.Length, cutCommand.Length);
-                    using (TcpClient client = new TcpClient())
+                    Console.WriteLine("Connecting to printer...");
+                    await client.ConnectAsync(printerIp, printerPort);
+                    client.LingerState = new LingerOption(true, 0);
+                    foreach (string currentMessage in parsedMessage)
                     {
-                        Console.WriteLine("Connecting to printer...");
-                        await client.ConnectAsync(printerIp, printerPort);
-                        client.LingerState = new LingerOption(true, 0);
+                        byte[] msg = Encoding.ASCII.GetBytes(currentMessage);
+                        byte[] fullPrintMsg = new byte[initializePrinter.Length + msg.Length + cutCommand.Length];
+                        Array.Copy(initializePrinter, 0, fullPrintMsg, 0, initializePrinter.Length);
+                        Array.Copy(msg, 0, fullPrintMsg, initializePrinter.Length, msg.Length);
+                        Array.Copy(cutCommand, 0, fullPrintMsg, initializePrinter.Length + msg.Length, cutCommand.Length);
                         using (NetworkStream stream = client.GetStream())
                         {
                             await stream.WriteAsync(fullPrintMsg, 0, fullPrintMsg.Length);
