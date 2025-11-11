@@ -17,16 +17,16 @@ namespace Framework.Publishers
             observers.Remove(observer);
         }
 
-        public async Task DetachAll()
+        public void DetachAll()
         {
             observers.Clear();
         }
 
-        public async Task Notify()
+        public void Notify()
         {
             foreach (var thisOberver in observers)
             {
-                await thisOberver.Update(this);
+                thisOberver.Update(this);
             }
         }
 
