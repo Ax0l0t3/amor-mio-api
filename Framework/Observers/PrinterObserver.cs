@@ -13,7 +13,7 @@ namespace Framework.Observers
             _printer = printer;
         }
 
-        public async Task Update(ISubject subject)
+        public async void Update(ISubject subject)
         {
             var printerPublisher = subject as PrinterPublisher;
             if (printerPublisher is not null)
