@@ -155,6 +155,29 @@ namespace Framework.Endpoints
                     return Results.Problem($"Unexpected behaviour {ex.Message}");
                 }
             });
+
+            routes.MapPost("/save-ticket", async (TicketClass ticket) =>
+            {
+                try
+                {
+                    string printerSelected = ticket.PrintedObjects[0].Printer;
+                    if(string.IsNullOrEmpty(printerSelected))
+                    {
+                        Console.WriteLine("[Warning] No printer selected. No ticket saved");
+                        return Results.StatusCode(400);
+                    }
+                    var jsonTickets = await File.ReadAllTextAsync(PrintedTicketsFilePath);
+                    PrintedTickets printedOrders = JsonSerializer.Deserialize<PrintedTickets>(jsonTickets) ?? new PrintedTickets();
+                    printedOrders.PrintedOrders.Add(ticket);
+                    var serializedUpdated = JsonSerializer.Serialize(printedOrders);
+                    await File.WriteAllTextAsync(PrintedTicketsFilePath, serializedUpdated);
+                    return Results.Ok();
+                }
+                catch (Exception ex)
+                {
+                    return Results.Problem($"Unexpected behaviour\n{ex.Message}");
+                }
+            });
         }
     }
 }
