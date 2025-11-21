@@ -51,7 +51,7 @@ namespace Framework.Endpoints
 
             routes.MapGet("/get-printed-tickets", async () =>
             {
-                var jsonContent = await File.ReadAllTextAsync(PrintedTicketsFilePath);
+                string jsonContent = await File.ReadAllTextAsync(PrintedTicketsFilePath);
                 return Results.Content(jsonContent, HttpApplicationType);
             });
         }
