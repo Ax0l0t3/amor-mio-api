@@ -178,6 +178,35 @@ namespace Framework.Endpoints
                     return Results.Problem($"Unexpected behaviour\n{ex.Message}");
                 }
             });
+
+            routes.MapPost("/update-printed-tickets", async () =>
+            {
+                DateTime currentTime = DateTime.Now;
+                string jsonContent = await File.ReadAllTextAsync(PrintedTicketsFilePath);
+                PrintedTickets localTickets = JsonSerializer.Deserialize<PrintedTickets>(jsonContent) ?? new PrintedTickets();
+                List<TicketClass> newTicketList = new();
+                foreach (TicketClass oneTicket in localTickets.PrintedOrders)
+                {
+                    if (DateTime.TryParse(oneTicket.NowDate, out DateTime ticketTime))
+                    {
+                        if (currentTime - ticketTime < new TimeSpan(12, 0, 0))
+                        {
+                            newTicketList.Add(oneTicket);
+                        }
+                    }
+                }
+                localTickets.PrintedOrders = newTicketList;
+                foreach (TicketClass oneTicket in localTickets.PrintedOrders)
+                {
+                    if (DateTime.TryParse(oneTicket.NowDate, out DateTime ticketTime))
+                    {
+                        Console.WriteLine($"Ticket: {ticketTime}");
+                    }
+                }
+                var newJson = JsonSerializer.Serialize(localTickets);
+                await File.WriteAllTextAsync(PrintedTicketsFilePath, newJson);
+                return Results.Ok();
+            });
         }
     }
 }
