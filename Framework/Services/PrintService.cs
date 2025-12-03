@@ -30,22 +30,16 @@ namespace Framework.Services
                     Console.WriteLine("Connecting to printer...");
                     await client.ConnectAsync(printerIp, printerPort);
                     client.LingerState = new LingerOption(true, 0);
-                    foreach (string currentMessage in parsedMessage)
+                    string fullFullMessage = string.Join("", ParseFullTicket(parsedMessage, initializePrinter, cutCommand));
+                    byte[] getByteMsg = Encoding.ASCII.GetBytes(fullFullMessage);
+                    using (NetworkStream stream = client.GetStream())
                     {
-                        byte[] msg = Encoding.ASCII.GetBytes(currentMessage);
-                        byte[] fullPrintMsg = new byte[initializePrinter.Length + msg.Length + cutCommand.Length];
-                        Array.Copy(initializePrinter, 0, fullPrintMsg, 0, initializePrinter.Length);
-                        Array.Copy(msg, 0, fullPrintMsg, initializePrinter.Length, msg.Length);
-                        Array.Copy(cutCommand, 0, fullPrintMsg, initializePrinter.Length + msg.Length, cutCommand.Length);
-                        using (NetworkStream stream = client.GetStream())
-                        {
-                            await stream.WriteAsync(fullPrintMsg, 0, fullPrintMsg.Length);
-                            await stream.FlushAsync();
-                            await Task.Delay(1500);
-                            Console.WriteLine("Comanda impresa exitosamente");
-                        }
-                        Console.WriteLine("Closing connection...");
+                        await stream.WriteAsync(getByteMsg, 0, getByteMsg.Length);
+                        await stream.FlushAsync();
+                        await Task.Delay(1500);
+                        Console.WriteLine("Comanda impresa exitosamente");
                     }
+                    Console.WriteLine("Closing connection...");
                 }
             }
             catch (Exception ex)
@@ -98,6 +92,21 @@ namespace Framework.Services
                 }
             }
             return listOfMessages;
+        }
+
+        private static List<string> ParseFullTicket(List<string> parsedMessages, byte[] initPrinter, byte[] cutCommand)
+        {
+            List<string> fullStrMsg = new List<string>();
+            foreach (string currentMessage in parsedMessages)
+            {
+                byte[] msg = Encoding.ASCII.GetBytes(currentMessage);
+                byte[] fullPrintMsg = new byte[initPrinter.Length + msg.Length + cutCommand.Length];
+                Array.Copy(initPrinter, 0, fullPrintMsg, 0, initPrinter.Length);
+                Array.Copy(msg, 0, fullPrintMsg, initPrinter.Length, msg.Length);
+                Array.Copy(cutCommand, 0, fullPrintMsg, initPrinter.Length + msg.Length, cutCommand.Length);
+                fullStrMsg.Add(fullPrintMsg.ToString());
+            }
+            return fullStrMsg;
         }
     }
 }
