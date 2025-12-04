@@ -25,16 +25,16 @@ namespace Framework.Services
                     0x1B, 0x40
                 };
                 List<string> parsedMessage = ParseHtmlBody(message);
+                List<byte[]> fullByteMessage = ParseFullTicket(parsedMessage, initializePrinter, cutCommand);
+                byte[] toPrintByteArray = [..fullByteMessage.SelectMany(x => x)];
                 using (TcpClient client = new TcpClient())
                 {
                     Console.WriteLine("Connecting to printer...");
                     await client.ConnectAsync(printerIp, printerPort);
                     client.LingerState = new LingerOption(true, 0);
-                    string fullFullMessage = string.Join("", ParseFullTicket(parsedMessage, initializePrinter, cutCommand));
-                    byte[] getByteMsg = Encoding.ASCII.GetBytes(fullFullMessage);
                     using (NetworkStream stream = client.GetStream())
                     {
-                        await stream.WriteAsync(getByteMsg, 0, getByteMsg.Length);
+                        await stream.WriteAsync(toPrintByteArray, 0, toPrintByteArray.Length);
                         await stream.FlushAsync();
                         await Task.Delay(1500);
                         Console.WriteLine("Comanda impresa exitosamente");
@@ -94,9 +94,9 @@ namespace Framework.Services
             return listOfMessages;
         }
 
-        private static List<string> ParseFullTicket(List<string> parsedMessages, byte[] initPrinter, byte[] cutCommand)
+        private static List<byte[]> ParseFullTicket(List<string> parsedMessages, byte[] initPrinter, byte[] cutCommand)
         {
-            List<string> fullStrMsg = new List<string>();
+            List<byte[]> fullByteMsg = new List<byte[]>();
             foreach (string currentMessage in parsedMessages)
             {
                 byte[] msg = Encoding.ASCII.GetBytes(currentMessage);
@@ -104,9 +104,9 @@ namespace Framework.Services
                 Array.Copy(initPrinter, 0, fullPrintMsg, 0, initPrinter.Length);
                 Array.Copy(msg, 0, fullPrintMsg, initPrinter.Length, msg.Length);
                 Array.Copy(cutCommand, 0, fullPrintMsg, initPrinter.Length + msg.Length, cutCommand.Length);
-                fullStrMsg.Add(fullPrintMsg.ToString());
+                fullByteMsg.Add(fullPrintMsg);
             }
-            return fullStrMsg;
+            return fullByteMsg;
         }
     }
 }
